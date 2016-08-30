@@ -1,0 +1,18 @@
+build_image:
+  image: docker:git
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker build -t registry.gitlab.com/gbraad/b2g-build:base .
+    - docker push registry.gitlab.com/gbraad/b2g-build:base
+  when: manual
+
+build_b2g:
+  image: registry.gitlab.com/gbraad/b2g-build:base
+  script:
+    - git clone https://github.com/mozilla-b2g/B2G.git /B2G --depth 1 -b master
+    - ./config.sh flame-kk
+    - ./build.sh
+  when: manual
+

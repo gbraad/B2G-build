@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM registry.gitlab.com/gbraad/ubuntu:trusty
 MAINTAINER Simon Johansson <simon@simonjohansson.com>
 
 RUN dpkg --add-architecture i386
@@ -10,12 +10,12 @@ RUN apt-get update && \
     apt-get install -y python python-dev openjdk-7-jdk wget libdbus-glib-1-dev libxt-dev unzip cmake
 
 # We need to use gcc-4.7 (or newer) to build, set that as default.
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 1 
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 2 
-RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.7 1 
-RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 2 
-RUN update-alternatives --set gcc "/usr/bin/gcc-4.7" 
-RUN update-alternatives --set g++ "/usr/bin/g++-4.7"
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.7 1 ; \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 2 ; \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.7 1 ; \
+    update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 2 ; \
+    update-alternatives --set gcc "/usr/bin/gcc-4.7" ; \
+    update-alternatives --set g++ "/usr/bin/g++-4.7"
 
 #Setup environment and build that sucka!
 RUN useradd -m build
